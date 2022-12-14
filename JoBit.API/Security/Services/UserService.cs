@@ -16,39 +16,21 @@ public class UserService : IUserService
     private readonly IApplicantProfileRepository _applicantProfileRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork)
+    public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, IApplicantRepository applicantRepository, IRecruiterRepository recruiterRepository, IApplicantProfileRepository applicantProfileRepository)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
+        _applicantRepository = applicantRepository;
+        _recruiterRepository = recruiterRepository;
+        _applicantProfileRepository = applicantProfileRepository;
     }
 
     public async Task<User> FindUserAsync(long userId)
     {
-        return await _userRepository.FindUserByIdAsync(userId);
+        var existingUser = await _userRepository.FindUserByIdAsync(userId);
+        if (existingUser == null)
+            throw new AppException("User does not exist.");
+        return existingUser;
     }
-
-    public async Task RegisterUserAsync(User newUser)
-    {
-        try
-        {
-            await _userRepository.RegisterUserAsync(newUser);
-            switch (newUser.UserType)
-            {
-                case UserType.Applicant:
-                    Applicant newApplicant = new Applicant(newUser.UserId, newUser.Firstname, newUser.Lastname);
-                    await _applicantRepository.AddAsync(newApplicant);
-                    await _unitOfWork.CompleteAsync();
-                    break;
-                case UserType.Recruiter:
-                    Recruiter newRecruiter = new Recruiter(newUser.UserId, newUser.Firstname, newUser.Lastname);
-                    await _recruiterRepository.AddAsync(newRecruiter);
-                    await _unitOfWork.CompleteAsync();
-                    break;
-            }
-        }
-        catch (Exception exception)
-        {
-            throw new AppException($"An error has occurred { exception.Message }");
-        }
-    }
+    
 }

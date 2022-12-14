@@ -1,5 +1,6 @@
 using JoBit.API.JoBit.Domain.Models;
 using JoBit.API.Security.Domain.Models;
+using JoBit.API.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace JoBit.API.Shared.Persistence.Context;
@@ -11,6 +12,7 @@ public class AppDbContext : DbContext
     public DbSet<Applicant>? Applicants { get; set; }
     public DbSet<Recruiter>? Recruiters { get; set; }
     public DbSet<RecruiterProfile>? RecruiterProfiles { get; set; }
+    public DbSet<Company> Companies { get; set; }
 
     public AppDbContext(DbContextOptions options) : base(options)
     {
@@ -62,5 +64,40 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<ApplicantProfile>().Property(profile => profile.Lastname);
         modelBuilder.Entity<ApplicantProfile>().Property(profile => profile.PhotoUrl);
         modelBuilder.Entity<ApplicantProfile>().Property(profile => profile.Description);
+        
+        
+        //Recruiter
+        modelBuilder.Entity<Recruiter>().ToTable("Recruiters");
+        modelBuilder.Entity<Recruiter>().HasKey(recruiter => recruiter.RecruiterId);
+        modelBuilder.Entity<Recruiter>().Property(recruiter => recruiter.RecruiterId).IsRequired();
+        modelBuilder.Entity<Recruiter>().Property(recruiter => recruiter.Firstname);
+        modelBuilder.Entity<Recruiter>().Property(recruiter => recruiter.Lastname);
+        modelBuilder.Entity<Recruiter>().Property(recruiter => recruiter.UserId);
+        modelBuilder.Entity<Recruiter>()
+            .HasOne(recruiter => recruiter.RecruiterProfile)
+            .WithOne(profile => profile.Recruiter)
+            .HasForeignKey<RecruiterProfile>(profile => profile.RecruiterId);
+        
+        //RecruiterProfile
+        modelBuilder.Entity<RecruiterProfile>().ToTable("RecruiterProfiles");
+        modelBuilder.Entity<RecruiterProfile>().HasKey(profile => profile.RecruiterId);
+        modelBuilder.Entity<RecruiterProfile>().Property(profile => profile.RecruiterId).IsRequired();
+        modelBuilder.Entity<RecruiterProfile>().Property(profile => profile.Firstname);
+        modelBuilder.Entity<RecruiterProfile>().Property(profile => profile.Lastname);
+        modelBuilder.Entity<RecruiterProfile>().Property(profile => profile.PhotoUrl);
+        modelBuilder.Entity<RecruiterProfile>().Property(profile => profile.Description);
+        
+        //Companies
+        modelBuilder.Entity<Company>().ToTable("Companies");
+        modelBuilder.Entity<Company>().HasKey(company => company.CompanyId);
+        modelBuilder.Entity<Company>().Property(company => company.CompanyId).IsRequired().ValueGeneratedOnAdd();
+        modelBuilder.Entity<Company>().Property(company => company.CompanyName);
+        modelBuilder.Entity<Company>().Property(company => company.BusinessSector);
+        modelBuilder.Entity<Company>()
+            .HasMany(company => company.Recruiters)
+            .WithOne(recruiter => recruiter.Company)
+            .HasForeignKey(recruiter => recruiter.CompanyId);
+        
+        modelBuilder.UseSnakeCase();
     }
 }

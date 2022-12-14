@@ -1,5 +1,6 @@
 using JoBit.API.JoBit.Domain.Models;
 using JoBit.API.Security.Domain.Models.Bases;
+using JoBit.API.Security.Domain.Models.Flags;
 
 namespace JoBit.API.Security.Domain.Models;
 
@@ -16,8 +17,11 @@ public class Applicant : UserBase
     //Relations (We send)
     public ApplicantProfile? ApplicantProfile;
 
+    public Applicant()
+    {
+    }
 
-    public Applicant(long userId, string? firstname, string? lastname) : base(userId, firstname, lastname)
+    public Applicant(string? firstname, string? lastname, string? email, string? username, string? password, long userId) : base(firstname, lastname, email, username, password)
     {
         UserId = userId;
     }

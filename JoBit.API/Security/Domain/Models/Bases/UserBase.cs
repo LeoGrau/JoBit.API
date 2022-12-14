@@ -7,11 +7,22 @@ public abstract class UserBase
     public long UserId { get; set; }
     public String? Firstname { get; set; }
     public String? Lastname { get; set; }
+    public String? Email { get; set; }
+    public String? Username { get; set; }
+    public String? Password { get; set; }
 
-    protected UserBase(long userId, string? firstname, string? lastname)
+
+    protected UserBase()
     {
-        UserId = userId;
+        
+    }
+
+    protected UserBase(string? firstname, string? lastname, string? email, string? username, string? password)
+    {
         Firstname = firstname;
         Lastname = lastname;
+        Email = email;
+        Username = username;
+        Password = password;
     }
 }

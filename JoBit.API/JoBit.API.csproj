@@ -20,7 +20,6 @@
       <Folder Include="JoBit\Interfaces" />
       <Folder Include="Security\Domain\Services\Communication\Authenticate" />
       <Folder Include="Security\Interfaces\Internal" />
-      <Folder Include="Security\Interfaces\Rest\Controllers" />
     </ItemGroup>
 
 </Project>

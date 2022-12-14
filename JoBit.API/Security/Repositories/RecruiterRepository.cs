@@ -17,7 +17,7 @@ public class RecruiterRepository : BaseRepository, IRecruiterRepository
         return await AppDbContext.Recruiters.ToListAsync();
     }
 
-    public async Task<Recruiter> FindByApplicantIdAsync(long recruiterId)
+    public async Task<Recruiter> FindByRecruiterIdAsync(long recruiterId)
     {
         return await AppDbContext.Recruiters.FindAsync(recruiterId);
     }

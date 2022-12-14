@@ -25,7 +25,7 @@ public class RecruiterProfileRepository : BaseRepository, IRecruiterProfileRepos
 
     public async Task AddAsync(RecruiterProfile newRecruiterProfile)
     {
-        throw new NotImplementedException();
+        await AppDbContext.RecruiterProfiles.AddAsync(newRecruiterProfile);
     }
 
     public void Update(RecruiterProfile updatedRecruiterProfile)

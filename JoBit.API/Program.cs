@@ -1,3 +1,11 @@
+using JoBit.API.JoBit.Domain.Repositories;
+using JoBit.API.JoBit.Domain.Services;
+using JoBit.API.JoBit.Persistence.Repositories;
+using JoBit.API.JoBit.Services;
+using JoBit.API.Security.Domain.Repositories;
+using JoBit.API.Security.Domain.Services;
+using JoBit.API.Security.Repositories;
+using JoBit.API.Security.Services;
 using JoBit.API.Shared.Domain.Repositories;
 using JoBit.API.Shared.Persistence.Context;
 using JoBit.API.Shared.Persistence.Repositories;
@@ -36,7 +44,7 @@ builder.Services.AddSwaggerGen(
 
 //ConnectionString to Database
 // Instance ConnectionString
-var connectionString = builder.Configuration.GetConnectionString("MySQLConnection");
+var connectionString = builder.Configuration.GetConnectionString("MySqlConnection");
 
 builder.Services.AddDbContext<AppDbContext>(
     options =>
@@ -54,6 +62,24 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 //Dependency Injection
 //--Shared
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//--Security
+
+//--JoBit
+builder.Services.AddScoped<IApplicantService, ApplicantService>();
+builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddScoped<IRecruiterService, RecruiterService>();
+builder.Services.AddScoped<IRecruiterRepository, RecruiterRepository>();
+
+builder.Services.AddScoped<IApplicantProfileService, ApplicantProfileService>();
+builder.Services.AddScoped<IApplicantProfileRepository, ApplicantProfileRepository>();
+
+builder.Services.AddScoped<IRecruiterProfileService, RecruiterProfileService>();
+builder.Services.AddScoped<IRecruiterProfileRepository, RecruiterProfileRepository>();
+
 
 //Add Automapper Configuration
 builder.Services.AddAutoMapper(
@@ -67,6 +93,13 @@ builder.Services.AddAutoMapper(
 //builder.Services.Configure<AppSettings>()
 
 var app = builder.Build();
+
+// Validation for ensuring Database Objects are created
+using (var scope = app.Services.CreateScope())
+using (var context = scope.ServiceProvider.GetService<AppDbContext>())
+{
+    context.Database.EnsureCreated();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -1,4 +1,6 @@
+using JoBit.API.JoBit.Domain.Models;
 using JoBit.API.Security.Domain.Models.Bases;
+using JoBit.API.Security.Domain.Models.Flags;
 
 namespace JoBit.API.Security.Domain.Models;
 
@@ -14,10 +16,17 @@ public class Recruiter : UserBase
     //-CompanyId ForeignKey
     public long CompanyId { get; set; }
     public Company? Company { get; set; }
+    
+    //We Send
+    public RecruiterProfile? RecruiterProfile { get; set; }
 
-    public Recruiter(long userId, string? firstname, string? lastname) : base(userId, firstname, lastname)
+    public Recruiter()
+    {
+    }
+
+    public Recruiter(string? firstname, string? lastname, string? email, string? username, string? password, long userId, long companyId) : base(firstname, lastname, email, username, password)
     {
         UserId = userId;
-        CompanyId = 0;
+        CompanyId = companyId;
     }
 }
