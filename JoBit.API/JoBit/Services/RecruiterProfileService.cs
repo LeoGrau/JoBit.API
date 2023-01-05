@@ -1,4 +1,5 @@
 using JoBit.API.JoBit.Domain.Models;
+using JoBit.API.JoBit.Domain.Repositories;
 using JoBit.API.JoBit.Domain.Services;
 using JoBit.API.JoBit.Domain.Services.Communication;
 using JoBit.API.Security.Domain.Repositories;
@@ -8,23 +9,26 @@ namespace JoBit.API.JoBit.Services;
 
 public class RecruiterProfileService : IRecruiterProfileService
 {
-    private readonly IRecruiterRepository _applicantProfileRepository;
+    private readonly IRecruiterProfileRepository _recruiterProfileRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public RecruiterProfileService(IRecruiterRepository applicantProfileRepository, IUnitOfWork unitOfWork)
+    public RecruiterProfileService(IRecruiterProfileRepository recruiterProfileRepository, IUnitOfWork unitOfWork)
     {
-        _applicantProfileRepository = applicantProfileRepository;
+        _recruiterProfileRepository = recruiterProfileRepository;
         _unitOfWork = unitOfWork;
     }
 
-    public Task<IEnumerable<RecruiterProfile>> ListAllAsync()
+    public async Task<IEnumerable<RecruiterProfile>> ListAllAsync()
     {
-        throw new NotImplementedException();
+        return await _recruiterProfileRepository.ListAllAsync();
     }
 
-    public Task<RecruiterProfileResponse> FindByApplicantId(long recruiterId)
+    public async Task<RecruiterProfileResponse> FindByRecruiterId(long recruiterId)
     {
-        throw new NotImplementedException();
+        var existingRecruiterProfile = await _recruiterProfileRepository.FindByRecruiterIdAsync(recruiterId);
+        if (existingRecruiterProfile == null)
+            return new RecruiterProfileResponse("Recruiter profile does not exist.");
+        return new RecruiterProfileResponse(existingRecruiterProfile);
     }
 
     public Task<RecruiterProfileResponse> AddAsync(RecruiterProfile recruiterProfile)

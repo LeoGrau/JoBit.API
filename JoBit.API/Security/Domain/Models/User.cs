@@ -1,3 +1,4 @@
+using JoBit.API.JoBit.Domain.Models;
 using JoBit.API.Security.Domain.Models.Bases;
 using JoBit.API.Security.Domain.Models.Flags;
 
@@ -6,7 +7,12 @@ namespace JoBit.API.Security.Domain.Models;
 public class User : UserBase
 {
     //Relations (We Send)
+    public IList<PostJob>? PostJobs { get; set; }
+
+    //Relations (Other Send)
+
     //Must
+    
     //Optionals
     public Applicant? Applicant { get; set; }
     public Recruiter? Recruiter { get; set; }

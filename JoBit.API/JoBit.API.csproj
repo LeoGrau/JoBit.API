@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="JoBit\Interfaces" />
+      <Folder Include="JoBit\Interfaces\Internal" />
       <Folder Include="Security\Domain\Services\Communication\Authenticate" />
       <Folder Include="Security\Interfaces\Internal" />
     </ItemGroup>

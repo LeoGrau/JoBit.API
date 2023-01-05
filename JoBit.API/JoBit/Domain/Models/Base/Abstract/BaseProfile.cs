@@ -1,6 +1,6 @@
 namespace JoBit.API.JoBit.Domain.Models.Base;
 
-public class BaseProfile
+public abstract class BaseProfile
 {
     public String? Firstname { get; set; }
     public String? Lastname { get; set; }

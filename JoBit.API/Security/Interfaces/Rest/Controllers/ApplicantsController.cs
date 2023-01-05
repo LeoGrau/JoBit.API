@@ -26,10 +26,10 @@ public class ApplicantsController : ControllerBase
     [HttpGet("{applicantId}")]
     public async Task<IActionResult> GetApplicantByApplicantId(long applicantId)
     {
-        var user = await _applicantService.FindByApplicantIdAsync(applicantId);
-        if (user == null)
+        var applicant = await _applicantService.FindByApplicantIdAsync(applicantId);
+        if (applicant == null)
             return BadRequest("Applicant does not exist");
-        return Ok(user);
+        return Ok(applicant);
     }
 
     //[AllowAnonymous]

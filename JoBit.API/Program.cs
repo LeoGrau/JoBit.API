@@ -65,20 +65,30 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //--Security
 
 //--JoBit
+//Applicant
 builder.Services.AddScoped<IApplicantService, ApplicantService>();
 builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
-
+//User
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-
+//Recruiter
 builder.Services.AddScoped<IRecruiterService, RecruiterService>();
 builder.Services.AddScoped<IRecruiterRepository, RecruiterRepository>();
-
+//ApplicantProfile
 builder.Services.AddScoped<IApplicantProfileService, ApplicantProfileService>();
 builder.Services.AddScoped<IApplicantProfileRepository, ApplicantProfileRepository>();
-
+//RecruiterProfile
 builder.Services.AddScoped<IRecruiterProfileService, RecruiterProfileService>();
 builder.Services.AddScoped<IRecruiterProfileRepository, RecruiterProfileRepository>();
+//TechSkill
+builder.Services.AddScoped<ITechSkillService, TechSkillService>();
+builder.Services.AddScoped<ITechSkillRepository, TechSkillRepository>();
+//ApplicantTechSkill
+builder.Services.AddScoped<IApplicantTechSkillService, ApplicantTechSkillService>();
+builder.Services.AddScoped<IApplicantTechSkillRepository, ApplicantTechSkillRepository>();
+//PostJobs
+builder.Services.AddScoped<IPostJobService, PostJobService>();
+builder.Services.AddScoped<IPostJobRepository, IPostJobRepository>();
 
 
 //Add Automapper Configuration
@@ -111,6 +121,12 @@ if (app.Environment.IsDevelopment())
         options.RoutePrefix = "swagger";
     });
 }
+
+// CORS
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
 app.UseHttpsRedirection();
 

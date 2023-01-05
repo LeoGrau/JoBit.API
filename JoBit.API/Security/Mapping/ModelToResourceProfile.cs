@@ -1,4 +1,5 @@
 using AutoMapper;
+using JoBit.API.JoBit.Resources.Show;
 using JoBit.API.Security.Domain.Models;
 using JoBit.API.Security.Domain.Services.Communication.Requests;
 using JoBit.API.Security.Resources.Show;
@@ -10,7 +11,10 @@ public class ModelToResourceProfile : Profile
     public ModelToResourceProfile()
     {
         CreateMap<Applicant, ApplicantResource>();
-        
+
         CreateMap<Recruiter, RecruiterResource>();
+        CreateMap<Recruiter, RecruiterProfileResource>();
+
+        CreateMap<Company, CompanyResource>();
     }
 }

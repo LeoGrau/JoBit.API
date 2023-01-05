@@ -1,6 +1,7 @@
 using JoBit.API.JoBit.Domain.Models;
 using JoBit.API.Security.Domain.Models.Bases;
 using JoBit.API.Security.Domain.Models.Flags;
+using JoBit.API.Security.Domain.Models.Intermediate;
 
 namespace JoBit.API.Security.Domain.Models;
 
@@ -19,6 +20,7 @@ public class Recruiter : UserBase
     
     //We Send
     public RecruiterProfile? RecruiterProfile { get; set; }
+    public IList<PostJobRecruiter>? PostJobRecruiters { get; set; }
 
     public Recruiter()
     {

@@ -9,6 +9,10 @@ public class ApplicantProfile : BaseProfile
     //-ApplicantId ForeignKey
     public long ApplicantId { get; set; } //This is also primary key.
     public Applicant? Applicant { get; set; }
+    
+    //Relations (We send)
+    //-ApplicantProfileTechSkill
+    public IList<ApplicantTechSkill>? ApplicantTechSkills { get; set; }
 
     public ApplicantProfile()
     {

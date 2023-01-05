@@ -2,9 +2,9 @@ namespace JoBit.API.Shared.Domain.Services.Communication;
 
 public class BaseResponse<T>
 {
-    public String? Message { get; private set; }
+    public String Message { get; private set; }
     public Boolean Success { get; private set; }
-    public T? Resource { get; private set; }
+    public T Resource { get; private set; }
 
     
     //Successful Response

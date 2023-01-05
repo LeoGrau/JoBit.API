@@ -26,15 +26,15 @@ public class RecruitersController : ControllerBase
     [HttpGet("{recruiterId}")]
     public async Task<IActionResult> GetApplicantByApplicantId(long applicantId)
     {
-        var user = await _recruiterService.FindByRecruiterIdAsync(applicantId);
-        if (user == null)
+        var recruiter = await _recruiterService.FindByRecruiterIdAsync(applicantId);
+        if (recruiter == null)
             return BadRequest("Recruiter does not exist");
-        return Ok(user);
+        return Ok(recruiter);
     }
 
     //[AllowAnonymous]
     [HttpPost]
-    public async Task<IActionResult> PostApplicant(
+    public async Task<IActionResult> PostRecruiter(
         [FromBody, SwaggerRequestBody("New Recruiter")] RecruiterRegisterRequest recruiterRegisterRequest)
     {
         var mappedApplicant = _mapper.Map<RecruiterRegisterRequest, Recruiter>(recruiterRegisterRequest);

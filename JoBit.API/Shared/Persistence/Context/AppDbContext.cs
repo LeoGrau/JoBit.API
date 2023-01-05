@@ -1,5 +1,6 @@
 using JoBit.API.JoBit.Domain.Models;
 using JoBit.API.Security.Domain.Models;
+using JoBit.API.Security.Domain.Models.Intermediate;
 using JoBit.API.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,11 @@ public class AppDbContext : DbContext
     public DbSet<Recruiter>? Recruiters { get; set; }
     public DbSet<RecruiterProfile>? RecruiterProfiles { get; set; }
     public DbSet<Company> Companies { get; set; }
+    public DbSet<TechSkill> TechSkills { get; set; }
+    public DbSet<ApplicantTechSkill> ApplicantTechSkills { get; set; }
+    public DbSet<PostJob> PostJobs { get; set; }
+    public DbSet<PostJobRecruiter> PostJobRecruiters { get; set; }
+    public DbSet<PostJobApplicant> PostJobApplicants { get; set; }
 
     public AppDbContext(DbContextOptions options) : base(options)
     {
@@ -43,6 +49,10 @@ public class AppDbContext : DbContext
             .WithOne(recruiter => recruiter.User)
             .HasForeignKey<Recruiter>(recruiter => recruiter.UserId)
             .IsRequired(false);
+        modelBuilder.Entity<User>()
+            .HasMany(user => user.PostJobs)
+            .WithOne(postJob => postJob.User)
+            .HasForeignKey(postJob => postJob.UserId);
 
         //Applicants
         modelBuilder.Entity<Applicant>().ToTable("Applicants");
@@ -64,6 +74,10 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<ApplicantProfile>().Property(profile => profile.Lastname);
         modelBuilder.Entity<ApplicantProfile>().Property(profile => profile.PhotoUrl);
         modelBuilder.Entity<ApplicantProfile>().Property(profile => profile.Description);
+        modelBuilder.Entity<ApplicantProfile>()
+            .HasMany(profile => profile.ApplicantTechSkills)
+            .WithOne(applicantTechSkill => applicantTechSkill.ApplicantProfile)
+            .HasForeignKey(applicantTechSkill => applicantTechSkill.ApplicantId);
         
         
         //Recruiter
@@ -77,6 +91,23 @@ public class AppDbContext : DbContext
             .HasOne(recruiter => recruiter.RecruiterProfile)
             .WithOne(profile => profile.Recruiter)
             .HasForeignKey<RecruiterProfile>(profile => profile.RecruiterId);
+        modelBuilder.Entity<Recruiter>()
+            .HasMany(recruiter => recruiter.PostJobRecruiters)
+            .WithOne(postJobRecruiter => postJobRecruiter.Recruiter)
+            .HasForeignKey(postJobRecruiter => postJobRecruiter.RecruiterId);
+        
+        //PostJobRecruiters
+        modelBuilder.Entity<PostJobRecruiter>().ToTable("PostJobRecruiters");
+        modelBuilder.Entity<PostJobRecruiter>().HasKey(postJobRecruiter => new { postJobRecruiter.RecruiterId, postJobRecruiter.PostId });
+        modelBuilder.Entity<PostJobRecruiter>().Property(postJobRecruiter => postJobRecruiter.RecruiterId);
+        modelBuilder.Entity<PostJobRecruiter>().Property(postJobRecruiter => postJobRecruiter.PostId);
+        
+        //PostJobApplicants
+        modelBuilder.Entity<PostJobApplicant>().ToTable("PostJobApplicants");
+        modelBuilder.Entity<PostJobApplicant>().HasKey(postJobApplicant => new { postJobApplicant.ApplicantId, postJobApplicant.PostId });
+        modelBuilder.Entity<PostJobApplicant>().Property(postJobApplicant => postJobApplicant.ApplicantId);
+        modelBuilder.Entity<PostJobApplicant>().Property(postJobApplicant => postJobApplicant.PostId);
+        
         
         //RecruiterProfile
         modelBuilder.Entity<RecruiterProfile>().ToTable("RecruiterProfiles");
@@ -97,7 +128,68 @@ public class AppDbContext : DbContext
             .HasMany(company => company.Recruiters)
             .WithOne(recruiter => recruiter.Company)
             .HasForeignKey(recruiter => recruiter.CompanyId);
+        modelBuilder.Entity<Company>()
+            .HasMany(company => company.PostJobs)
+            .WithOne(postJob => postJob.Company)
+            .HasForeignKey(postJob => postJob.CompanyId);
+        modelBuilder.Entity<Company>()
+            .HasOne(company => company.CompanyProfile)
+            .WithOne(companyProfile => companyProfile.Company)
+            .HasForeignKey<CompanyProfile>(companyProfile => companyProfile.CompanyId);
+
+
+        //Company Profiles
+        modelBuilder.Entity<CompanyProfile>().ToTable("Companies");
+        modelBuilder.Entity<CompanyProfile>().HasKey(companyProfile => companyProfile.CompanyId);
+        modelBuilder.Entity<CompanyProfile>().Property(companyProfile => companyProfile.CompanyId).IsRequired().ValueGeneratedOnAdd();
+        modelBuilder.Entity<CompanyProfile>().Property(companyProfile => companyProfile.CompanyName);
+
+
+        //TechSkills
+        modelBuilder.Entity<TechSkill>().ToTable("TechSkills");
+        modelBuilder.Entity<TechSkill>().HasKey(techSkill => techSkill.TechSkillId);
+        modelBuilder.Entity<TechSkill>().Property(techSkill => techSkill.TechSkillId).IsRequired()
+            .ValueGeneratedOnAdd();
+        modelBuilder.Entity<TechSkill>().Property(techSkill => techSkill.TechName);
+        modelBuilder.Entity<TechSkill>().Property(techSkill => techSkill.PhotoUrl);
+        modelBuilder.Entity<TechSkill>()
+            .HasMany(techSkill => techSkill.ApplicantTechSkills)
+            .WithOne(applicantTechSkill => applicantTechSkill.TechSkill)
+            .HasForeignKey(applicantTechSkill => applicantTechSkill.TechSkillId);
         
-        modelBuilder.UseSnakeCase();
+        //ApplicantTechSkills
+        modelBuilder.Entity<ApplicantTechSkill>().ToTable("ApplicantTechSkills");
+        modelBuilder.Entity<ApplicantTechSkill>().HasKey(applicantTechSkill => applicantTechSkill.ApplicantTechSkillId);
+        modelBuilder.Entity<ApplicantTechSkill>()
+            .Property(applicantTechSkill => applicantTechSkill.ApplicantTechSkillId).IsRequired();
+        modelBuilder.Entity<ApplicantTechSkill>()
+            .Property(applicantTechSkill => applicantTechSkill.ApplicantId).IsRequired();
+        modelBuilder.Entity<ApplicantTechSkill>()
+            .Property(applicantTechSkill => applicantTechSkill.TechSkillId).IsRequired();
+        modelBuilder.Entity<ApplicantTechSkill>()
+            .Property(applicantTechSkill => applicantTechSkill.ApplicantId).IsRequired().ValueGeneratedOnAdd();
+        modelBuilder.Entity<ApplicantTechSkill>().Property(applicantTechSkill => applicantTechSkill.StartDate);
+        
+        //PostJobs
+        modelBuilder.Entity<PostJob>().ToTable("PostJobs");
+        modelBuilder.Entity<PostJob>().HasKey(postJob => postJob.PostId);
+        modelBuilder.Entity<PostJob>().Property(postJob => postJob.PostId).ValueGeneratedOnAdd().IsRequired();
+        modelBuilder.Entity<PostJob>().Property(postJob => postJob.UserId);
+        modelBuilder.Entity<PostJob>().Property(postJob => postJob.Title);
+        modelBuilder.Entity<PostJob>().Property(postJob => postJob.Description);
+        modelBuilder.Entity<PostJob>().Property(postJob => postJob.CompanyId);
+        modelBuilder.Entity<PostJob>().Property(postJob => postJob.JobModality);
+        modelBuilder.Entity<PostJob>().Property(postJob => postJob.TimeModality);
+        modelBuilder.Entity<PostJob>().Property(postJob => postJob.JobName);
+        modelBuilder.Entity<PostJob>().Property(postJob => postJob.Place);
+        modelBuilder.Entity<PostJob>().Property(postJob => postJob.Salary);
+        modelBuilder.Entity<PostJob>()
+            .HasMany(postJob => postJob.PostJobRecruiters)
+            .WithOne(postJobRecruiter => postJobRecruiter.PostJob)
+            .HasForeignKey(postJobRecruiter => postJobRecruiter.PostId);
+
+
+
+            modelBuilder.UseSnakeCase();
     }
 }

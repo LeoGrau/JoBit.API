@@ -5,11 +5,11 @@ namespace JoBit.API.JoBit.Domain.Services.Communication;
 
 public class RecruiterProfileResponse : BaseResponse<RecruiterProfile>
 {
-    protected RecruiterProfileResponse(RecruiterProfile resource) : base(resource)
+    public RecruiterProfileResponse(RecruiterProfile resource) : base(resource)
     {
     }
 
-    protected RecruiterProfileResponse(string message) : base(message)
+    public RecruiterProfileResponse(string message) : base(message)
     {
     }
 }
