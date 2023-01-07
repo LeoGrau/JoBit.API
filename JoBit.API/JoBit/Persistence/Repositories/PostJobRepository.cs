@@ -29,7 +29,7 @@ public class PostJobRepository : BaseRepository, IPostJobRepository
 
     public async Task AddAsync(PostJob newPostJob)
     {
-        await AppDbContext.PostJobs.FindAsync(newPostJob);
+        await AppDbContext.PostJobs.AddAsync(newPostJob);
     }
 
     public void Remove(PostJob toDeletePostJob)

@@ -1,8 +1,8 @@
 using System.Net.Mime;
 using AutoMapper;
 using JoBit.API.JoBit.Domain.Models;
-using JoBit.API.JoBit.Domain.Repositories;
 using JoBit.API.JoBit.Domain.Services;
+using JoBit.API.JoBit.Resources.Save;
 using JoBit.API.JoBit.Resources.Show;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -44,6 +44,27 @@ public class PostJobController : BaseController
     public async Task<IActionResult> GetPostJobByPostJobId(long postJobId)
     {
         var result = await _postJobService.FindByPostJobIdAsync(postJobId);
+        if (!result.Success)
+            return BadRequest(result.Message);
+        var mappedResult = _mapper.Map<PostJob, PostJobResource>(result.Resource);
+        return Ok(mappedResult);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PostPostJob([FromBody, SwaggerRequestBody()] SavePostJobResource savePostJobResource)
+    {
+        var mappedPostJob = _mapper.Map<SavePostJobResource, PostJob>(savePostJobResource);
+        var result = await _postJobService.AddAsync(mappedPostJob);
+        if (!result.Success)
+            return BadRequest(result.Message);
+        var mappedResult = _mapper.Map<PostJob, PostJobResource>(result.Resource);
+        return Ok(mappedResult);
+    }
+    
+    [HttpDelete("{postId}")]
+    public async Task<IActionResult> DeletePostJob(long postId)
+    {
+        var result = await _postJobService.RemoveAsync(postId);
         if (!result.Success)
             return BadRequest(result.Message);
         var mappedResult = _mapper.Map<PostJob, PostJobResource>(result.Resource);

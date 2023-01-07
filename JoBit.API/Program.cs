@@ -63,8 +63,6 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 //--Shared
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //--Security
-
-//--JoBit
 //Applicant
 builder.Services.AddScoped<IApplicantService, ApplicantService>();
 builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
@@ -74,12 +72,20 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 //Recruiter
 builder.Services.AddScoped<IRecruiterService, RecruiterService>();
 builder.Services.AddScoped<IRecruiterRepository, RecruiterRepository>();
+//Companies
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+
+//--JoBit
 //ApplicantProfile
 builder.Services.AddScoped<IApplicantProfileService, ApplicantProfileService>();
 builder.Services.AddScoped<IApplicantProfileRepository, ApplicantProfileRepository>();
 //RecruiterProfile
 builder.Services.AddScoped<IRecruiterProfileService, RecruiterProfileService>();
 builder.Services.AddScoped<IRecruiterProfileRepository, RecruiterProfileRepository>();
+//CompanyProfile
+builder.Services.AddScoped<ICompanyProfileService, CompanyProfileService>();
+builder.Services.AddScoped<ICompanyProfileRepository, CompanyProfileRepository>();
 //TechSkill
 builder.Services.AddScoped<ITechSkillService, TechSkillService>();
 builder.Services.AddScoped<ITechSkillRepository, TechSkillRepository>();
@@ -88,7 +94,10 @@ builder.Services.AddScoped<IApplicantTechSkillService, ApplicantTechSkillService
 builder.Services.AddScoped<IApplicantTechSkillRepository, ApplicantTechSkillRepository>();
 //PostJobs
 builder.Services.AddScoped<IPostJobService, PostJobService>();
-builder.Services.AddScoped<IPostJobRepository, IPostJobRepository>();
+builder.Services.AddScoped<IPostJobRepository, PostJobRepository>();
+//PostJobRecruiters
+builder.Services.AddScoped<IPostJobRecruiterService, PostJobRecruiterService>();
+builder.Services.AddScoped<IPostJobRecruiterRepository, PostJobRecruiterRepository>();
 
 
 //Add Automapper Configuration

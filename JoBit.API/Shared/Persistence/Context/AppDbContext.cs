@@ -1,4 +1,5 @@
 using JoBit.API.JoBit.Domain.Models;
+using JoBit.API.JoBit.Domain.Models.Intermediate;
 using JoBit.API.Security.Domain.Models;
 using JoBit.API.Security.Domain.Models.Intermediate;
 using JoBit.API.Shared.Extensions;
@@ -19,6 +20,7 @@ public class AppDbContext : DbContext
     public DbSet<PostJob> PostJobs { get; set; }
     public DbSet<PostJobRecruiter> PostJobRecruiters { get; set; }
     public DbSet<PostJobApplicant> PostJobApplicants { get; set; }
+    public DbSet<CompanyProfile> CompanyProfiles { get; set; }
 
     public AppDbContext(DbContextOptions options) : base(options)
     {
@@ -188,8 +190,13 @@ public class AppDbContext : DbContext
             .WithOne(postJobRecruiter => postJobRecruiter.PostJob)
             .HasForeignKey(postJobRecruiter => postJobRecruiter.PostId);
 
-
-
-            modelBuilder.UseSnakeCase();
+        //CompanyProfiles
+        modelBuilder.Entity<CompanyProfile>().ToTable("CompanyProfiles");
+        modelBuilder.Entity<CompanyProfile>().HasKey(companyProfile => companyProfile.CompanyId);
+        modelBuilder.Entity<CompanyProfile>().Property(companyProfile => companyProfile.CompanyId);
+        modelBuilder.Entity<CompanyProfile>().Property(companyProfile => companyProfile.CompanyName);
+        modelBuilder.Entity<CompanyProfile>().Property(companyProfile => companyProfile.BusinessSector);
+        modelBuilder.Entity<CompanyProfile>().Property(companyProfile => companyProfile.PhotoUrl);
+        modelBuilder.UseSnakeCase();
     }
 }

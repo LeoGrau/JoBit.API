@@ -1,3 +1,4 @@
+using JoBit.API.JoBit.Domain.Models.Intermediate;
 using JoBit.API.Security.Domain.Models.Intermediate;
 using JoBit.API.Shared.Domain.Services.Communication;
 

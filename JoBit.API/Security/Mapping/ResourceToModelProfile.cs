@@ -8,8 +8,13 @@ public class ResourceToModelProfile : Profile
 {
     public ResourceToModelProfile()
     {
+        //Applicant
         CreateMap<ApplicantRegisterRequest, Applicant>();
         
+        //Recruiter
         CreateMap<RecruiterRegisterRequest, Recruiter>();
+        
+        //Company
+        CreateMap<CompanyRegisterRequest, Company>();
     }
 }

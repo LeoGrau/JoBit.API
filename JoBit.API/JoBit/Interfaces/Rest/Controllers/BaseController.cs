@@ -15,7 +15,7 @@ public class BaseController : ControllerBase
     {
     }
 
-    [HttpGet]
+    [HttpGet("Welcome")]
     public IActionResult Welcome()
     {
         return Ok(new

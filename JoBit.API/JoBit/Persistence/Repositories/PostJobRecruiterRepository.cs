@@ -1,4 +1,5 @@
 using JoBit.API.JoBit.Domain.Models.Composite;
+using JoBit.API.JoBit.Domain.Models.Intermediate;
 using JoBit.API.JoBit.Domain.Repositories;
 using JoBit.API.Security.Domain.Models.Intermediate;
 using JoBit.API.Shared.Persistence.Context;

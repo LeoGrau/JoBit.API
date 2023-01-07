@@ -1,6 +1,6 @@
-using JoBit.API.JoBit.Domain.Models;
+using JoBit.API.Security.Domain.Models;
 
-namespace JoBit.API.Security.Domain.Models.Intermediate;
+namespace JoBit.API.JoBit.Domain.Models.Intermediate;
 
 public class PostJobRecruiter
 {

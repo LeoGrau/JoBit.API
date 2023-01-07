@@ -9,10 +9,16 @@ public class CompanyProfile
     public Company? Company { get; set; }
 
     public String? CompanyName { get; set; }
-    public String? AdminMail { get; set; }
-    public String? Password { get; set; }
     public String? BusinessSector { get; set; }
     public String? PhotoUrl { get; set; }
     
     
+    //Constructor
+    public CompanyProfile(long companyId, string? companyName)
+    {
+        CompanyId = companyId;
+        CompanyName = companyName;
+        PhotoUrl = String.Empty;
+        BusinessSector = String.Empty;
+    }
 }

@@ -1,4 +1,5 @@
 using JoBit.API.JoBit.Domain.Models.Flags;
+using JoBit.API.JoBit.Domain.Models.Intermediate;
 using JoBit.API.Security.Domain.Models;
 using JoBit.API.Security.Domain.Models.Intermediate;
 

@@ -1,4 +1,5 @@
 using JoBit.API.JoBit.Domain.Models.Composite;
+using JoBit.API.JoBit.Domain.Models.Intermediate;
 using JoBit.API.Security.Domain.Models.Intermediate;
 
 namespace JoBit.API.JoBit.Domain.Repositories;

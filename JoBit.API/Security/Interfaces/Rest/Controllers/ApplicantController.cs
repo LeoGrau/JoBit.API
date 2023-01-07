@@ -9,15 +9,15 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace JoBit.API.Security.Interfaces.Rest.Controllers;
 
 [ApiController]
-[Route("/api/v1/[controller]")]
+[Route("/api/v1/applicants")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("CRUD for Applicants")]
-public class ApplicantsController : ControllerBase
+public class ApplicantController : ControllerBase
 {
     private readonly IApplicantService _applicantService;
     private readonly IMapper _mapper;
 
-    public ApplicantsController(IApplicantService applicantService, IMapper mapper)
+    public ApplicantController(IApplicantService applicantService, IMapper mapper)
     {
         _applicantService = applicantService;
         _mapper = mapper;
@@ -33,8 +33,8 @@ public class ApplicantsController : ControllerBase
     }
 
     //[AllowAnonymous]
-    [HttpPost]
-    public async Task<IActionResult> PostApplicant(
+    [HttpPost("register")]
+    public async Task<IActionResult> RegisterApplicant(
         [FromBody, SwaggerRequestBody("New Applicant")] ApplicantRegisterRequest applicantRegisterRequest)
     {
         var mappedApplicant = _mapper.Map<ApplicantRegisterRequest, Applicant>(applicantRegisterRequest);

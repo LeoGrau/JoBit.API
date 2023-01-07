@@ -10,11 +10,14 @@ public class ModelToResourceProfile : Profile
 {
     public ModelToResourceProfile()
     {
+        //Applicant
         CreateMap<Applicant, ApplicantResource>();
-
+        
+        //Recruiter
         CreateMap<Recruiter, RecruiterResource>();
         CreateMap<Recruiter, RecruiterProfileResource>();
-
+        
+        //Company
         CreateMap<Company, CompanyResource>();
     }
 }
