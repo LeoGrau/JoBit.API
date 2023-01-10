@@ -8,7 +8,6 @@ public class PostJobResource : PostBaseResource
     public RecruiterProfileResource? RecruiterProfileResource { get; set; }
     public CompanyProfileResource? RecruiterProfile { get; set; }
     public long PostId { get; set; }
-    public long UserId { get; set; }
     public long CompanyId { get; set; }
     public String? JobName { get; set; }
     public Decimal Salary { get; set; }

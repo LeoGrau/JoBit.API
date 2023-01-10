@@ -126,7 +126,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("v2/swagger.json", "v2");
+        options.SwaggerEndpoint("v2/swagger.json", "v2"); 
         options.RoutePrefix = "swagger";
     });
 }

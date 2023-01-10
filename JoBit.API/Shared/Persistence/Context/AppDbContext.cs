@@ -49,12 +49,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<User>()
             .HasOne(user => user.Recruiter)
             .WithOne(recruiter => recruiter.User)
-            .HasForeignKey<Recruiter>(recruiter => recruiter.UserId)
-            .IsRequired(false);
-        modelBuilder.Entity<User>()
-            .HasMany(user => user.PostJobs)
-            .WithOne(postJob => postJob.User)
-            .HasForeignKey(postJob => postJob.UserId);
+            .HasForeignKey<Recruiter>(recruiter => recruiter.UserId);
 
         //Applicants
         modelBuilder.Entity<Applicant>().ToTable("Applicants");
@@ -103,6 +98,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<PostJobRecruiter>().HasKey(postJobRecruiter => new { postJobRecruiter.RecruiterId, postJobRecruiter.PostId });
         modelBuilder.Entity<PostJobRecruiter>().Property(postJobRecruiter => postJobRecruiter.RecruiterId);
         modelBuilder.Entity<PostJobRecruiter>().Property(postJobRecruiter => postJobRecruiter.PostId);
+        modelBuilder.Entity<PostJobRecruiter>().Property(postJobRecruiter => postJobRecruiter.MainPublisher);
         
         //PostJobApplicants
         modelBuilder.Entity<PostJobApplicant>().ToTable("PostJobApplicants");
@@ -125,7 +121,6 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Company>().HasKey(company => company.CompanyId);
         modelBuilder.Entity<Company>().Property(company => company.CompanyId).IsRequired().ValueGeneratedOnAdd();
         modelBuilder.Entity<Company>().Property(company => company.CompanyName);
-        modelBuilder.Entity<Company>().Property(company => company.BusinessSector);
         modelBuilder.Entity<Company>()
             .HasMany(company => company.Recruiters)
             .WithOne(recruiter => recruiter.Company)
@@ -176,7 +171,6 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<PostJob>().ToTable("PostJobs");
         modelBuilder.Entity<PostJob>().HasKey(postJob => postJob.PostId);
         modelBuilder.Entity<PostJob>().Property(postJob => postJob.PostId).ValueGeneratedOnAdd().IsRequired();
-        modelBuilder.Entity<PostJob>().Property(postJob => postJob.UserId);
         modelBuilder.Entity<PostJob>().Property(postJob => postJob.Title);
         modelBuilder.Entity<PostJob>().Property(postJob => postJob.Description);
         modelBuilder.Entity<PostJob>().Property(postJob => postJob.CompanyId);

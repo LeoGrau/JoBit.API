@@ -25,7 +25,7 @@ public class CompanyController : BaseController
         _mapper = mapper;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{companyId}")]
     public async Task<IActionResult> GetCompanyByCompanyId(long companyId)
     {
         var result = await _companyService.FindByCompanyIdAsync(companyId);

@@ -10,6 +10,6 @@ public class PostJobRecruiter
 
     public long PostId { get; set; }
     public PostJob? PostJob { get; set; }
-    
-    
+    public bool MainPublisher { get; set; }
+
 }

@@ -3,6 +3,7 @@ using AutoMapper;
 using JoBit.API.Security.Domain.Models;
 using JoBit.API.Security.Domain.Services;
 using JoBit.API.Security.Domain.Services.Communication.Requests;
+using JoBit.API.Security.Resources.Show;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -24,12 +25,13 @@ public class RecruiterController : ControllerBase
     }
     
     [HttpGet("{recruiterId}")]
-    public async Task<IActionResult> GetApplicantByApplicantId(long applicantId)
+    public async Task<IActionResult> GetRecruiterByRecruiterId(long recruiterId)
     {
-        var recruiter = await _recruiterService.FindByRecruiterIdAsync(applicantId);
+        var recruiter = await _recruiterService.FindByRecruiterIdAsync(recruiterId);
         if (recruiter == null)
             return BadRequest("Recruiter does not exist");
-        return Ok(recruiter);
+        var mappedRecruiter = _mapper.Map<Recruiter, RecruiterResource>(recruiter);
+        return Ok(mappedRecruiter);
     }
 
     //[AllowAnonymous]

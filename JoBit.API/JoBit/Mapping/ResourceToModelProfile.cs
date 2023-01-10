@@ -11,11 +11,18 @@ public class ResourceToModelProfile : Profile
 {
     public ResourceToModelProfile()
     {
+        //ApplicantTechSkill
         CreateMap<SaveApplicantTechSkillResource, ApplicantTechSkill>();
         CreateMap<SaveApplicantTechSkillWithoutApplicantIdResource, ApplicantTechSkill>();
         CreateMap<UpdateApplicantTechSkillResource, ApplicantTechSkill>();
         CreateMap<UpdateApplicantTechSkillWithoutApplicantIdResource, ApplicantTechSkill>();
+
+        //PostJob
+        CreateMap<SavePostJobResource, PostJob>();
         
+        //PostJobRecruiter
         CreateMap<SavePostJobRecruiterResource, PostJobRecruiter>();
+        
+        
     }
 }

@@ -12,5 +12,4 @@ public class SavePostJobResource : PostBaseResource
     public JobModality JobModality { get; set; }
     public TimeModality TimeModality { get; set; }
     public long CompanyId { get; set; }
-    public long UserId { get; set; }
 }

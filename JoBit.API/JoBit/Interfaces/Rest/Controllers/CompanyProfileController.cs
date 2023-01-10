@@ -26,7 +26,7 @@ public class CompanyProfileController : ControllerBase
 
     
     [HttpGet]
-    public async Task<IEnumerable<CompanyProfileResource>> GetAllCompanyProfiles(long companyId)
+    public async Task<IEnumerable<CompanyProfileResource>> GetAllCompanyProfiles()
     {
         var companyProfiles = await _companyProfileService.ListAllAsync();
         var mappedCompanyProfiles = _mapper.Map<IEnumerable<CompanyProfile>, IEnumerable<CompanyProfileResource>>(companyProfiles);

@@ -2,6 +2,7 @@ using JoBit.API.JoBit.Domain.Models;
 using JoBit.API.JoBit.Domain.Repositories;
 using JoBit.API.JoBit.Domain.Services;
 using JoBit.API.JoBit.Domain.Services.Communication;
+using JoBit.API.Security.Domain.Repositories;
 using JoBit.API.Shared.Domain.Repositories;
 
 namespace JoBit.API.JoBit.Services;
@@ -9,16 +10,26 @@ namespace JoBit.API.JoBit.Services;
 public class PostJobService : IPostJobService
 {
     private readonly IPostJobRepository _postJobRepository;
+    private readonly IRecruiterRepository _recruiterRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public PostJobService(IPostJobRepository postJobRepository, IUnitOfWork unitOfWork)
+    public PostJobService(IPostJobRepository postJobRepository, IUnitOfWork unitOfWork, IRecruiterRepository recruiterRepository)
     {
         _postJobRepository = postJobRepository;
+        _recruiterRepository = recruiterRepository;
         _unitOfWork = unitOfWork;
     }
 
     public async Task<IEnumerable<PostJob>> ListAllAsync()
     {
+        var postJobs = await _postJobRepository.ListAllAsync();
+        postJobs.ToList().ForEach(postJob =>
+        {
+            postJob.PostJobRecruiters.ToList().ForEach(postJobRecruiter =>
+            {
+                postJobRecruiter.Recruiter = _recruiterRepository.FindByRecruiterIdAsync(postJobRecruiter.RecruiterId).Result;
+            });
+        });
         return await _postJobRepository.ListAllAsync();
     }
 
@@ -88,4 +99,5 @@ public class PostJobService : IPostJobService
             return new PostJobResponse(e.Message);
         }
     }
+
 }

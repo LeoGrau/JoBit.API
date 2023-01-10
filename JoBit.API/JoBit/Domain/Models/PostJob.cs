@@ -17,11 +17,7 @@ public class PostJob : Post
     //Company Profile
     public long CompanyId { get; set; }
     public Company? Company { get; set; }
-    
-    //User
-    public long UserId { get; set; }
-    public User? User { get; set; }
-    
+
     //Relations (We send)
     public IList<PostJobRecruiter>? PostJobRecruiters { get; set; }
     public IList<PostJobApplicant>? PostJobApplicants { get; set; }

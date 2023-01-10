@@ -18,7 +18,7 @@ public class CompanyProfile
     {
         CompanyId = companyId;
         CompanyName = companyName;
-        PhotoUrl = String.Empty;
         BusinessSector = String.Empty;
+        PhotoUrl = String.Empty;
     }
 }
