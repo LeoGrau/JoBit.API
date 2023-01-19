@@ -5,10 +5,11 @@ namespace JoBit.API.JoBit.Resources.Show;
 
 public class PostJobResource : PostBaseResource
 {
-    public RecruiterProfileResource? RecruiterProfileResource { get; set; }
-    public CompanyProfileResource? RecruiterProfile { get; set; }
+    public IList<PostJobRecruiterResource>? PostJobRecruiters { get; set; }
+    public CompanyProfileResource? CompanyProfile  { get; set; }
     public long PostId { get; set; }
     public long CompanyId { get; set; }
+    public long RecruiterPublisherId { get; set; }
     public String? JobName { get; set; }
     public Decimal Salary { get; set; }
     public String? Place { get; set; }

@@ -14,7 +14,7 @@ public class RecruiterProfile : BaseProfile
     {
     }
 
-    public RecruiterProfile(string? firstname, string? lastname, string? photoUrl, string? description, long recruiterId) : base(firstname, lastname, photoUrl, description)
+    public RecruiterProfile(string? firstname, string? lastname, string? photoUrl, string? description, string? profession ,long recruiterId) : base(firstname, lastname, photoUrl, description, profession)
     {
         RecruiterId = recruiterId;
     }

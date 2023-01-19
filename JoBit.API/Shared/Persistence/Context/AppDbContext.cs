@@ -20,7 +20,11 @@ public class AppDbContext : DbContext
     public DbSet<PostJob> PostJobs { get; set; }
     public DbSet<PostJobRecruiter> PostJobRecruiters { get; set; }
     public DbSet<PostJobApplicant> PostJobApplicants { get; set; }
+    public DbSet<Institution> EducationalInstitutions { get; set; }
+
     public DbSet<CompanyProfile> CompanyProfiles { get; set; }
+    public DbSet<Career> Careers { get; set; }
+    public DbSet<CareerInstitution> CareerInstitutions { get; set; }
 
     public AppDbContext(DbContextOptions options) : base(options)
     {
@@ -75,6 +79,10 @@ public class AppDbContext : DbContext
             .HasMany(profile => profile.ApplicantTechSkills)
             .WithOne(applicantTechSkill => applicantTechSkill.ApplicantProfile)
             .HasForeignKey(applicantTechSkill => applicantTechSkill.ApplicantId);
+        modelBuilder.Entity<ApplicantProfile>()
+            .HasMany(applicant => applicant.CareerInstitutions)
+            .WithOne(institution => institution.ApplicantProfile)
+            .HasForeignKey(institution => institution.ApplicantId);
         
         
         //Recruiter
@@ -183,6 +191,10 @@ public class AppDbContext : DbContext
             .HasMany(postJob => postJob.PostJobRecruiters)
             .WithOne(postJobRecruiter => postJobRecruiter.PostJob)
             .HasForeignKey(postJobRecruiter => postJobRecruiter.PostId);
+        modelBuilder.Entity<PostJob>()
+            .HasOne(postJob => postJob.RecruiterPublisher)
+            .WithMany(recruiter => recruiter.PostJobs)
+            .HasForeignKey(postJob => postJob.RecruiterPublisherId);
 
         //CompanyProfiles
         modelBuilder.Entity<CompanyProfile>().ToTable("CompanyProfiles");
@@ -191,6 +203,37 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<CompanyProfile>().Property(companyProfile => companyProfile.CompanyName);
         modelBuilder.Entity<CompanyProfile>().Property(companyProfile => companyProfile.BusinessSector);
         modelBuilder.Entity<CompanyProfile>().Property(companyProfile => companyProfile.PhotoUrl);
+        modelBuilder.UseSnakeCase();
+        
+        //Careers
+        modelBuilder.Entity<Career>().ToTable("Careers");
+        modelBuilder.Entity<Career>().HasKey(career =>  career.CareerId);
+        modelBuilder.Entity<Career>().Property(career =>  career.CareerId).ValueGeneratedOnAdd().IsRequired();
+        modelBuilder.Entity<Career>().Property(career =>  career.CareerName);
+        modelBuilder.Entity<Career>()
+            .HasMany(institution => institution.CareerInstitutions)
+            .WithOne(institution => institution.Career)
+            .HasForeignKey(institution => institution.CareerId);
+        
+        //Institutions
+        modelBuilder.Entity<Institution>().ToTable("Institutions");
+        modelBuilder.Entity<Institution>().HasKey(institution => institution.InstitutionId);
+        modelBuilder.Entity<Institution>().Property(institution =>  institution.InstitutionId).ValueGeneratedOnAdd().IsRequired();
+        modelBuilder.Entity<Institution>().Property(institution =>  institution.InstitutionName);
+        modelBuilder.Entity<Institution>().Property(institution =>  institution.PhotoUrl);
+        modelBuilder.Entity<Institution>()
+            .HasMany(institution => institution.CareerInstitutions)
+            .WithOne(institution => institution.Institution)
+            .HasForeignKey(institution => institution.InstitutionId);
+        
+        //CareerInstitutions
+        modelBuilder.Entity<CareerInstitution>().ToTable("CareerInstitutions");
+        modelBuilder.Entity<CareerInstitution>().HasKey(institution => institution.CareerInstitutionId);
+        modelBuilder.Entity<CareerInstitution>().Property(institution => institution.CareerInstitutionId).ValueGeneratedOnAdd().IsRequired();
+        modelBuilder.Entity<CareerInstitution>().Property(institution =>  institution.CareerId);
+        modelBuilder.Entity<CareerInstitution>().Property(institution =>  institution.InstitutionId);
+        modelBuilder.Entity<CareerInstitution>().Property(institution => institution.ApplicantId);
+        
         modelBuilder.UseSnakeCase();
     }
 }

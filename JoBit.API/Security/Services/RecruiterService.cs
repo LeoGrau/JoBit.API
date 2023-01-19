@@ -48,7 +48,7 @@ public class RecruiterService : IRecruiterService
             await _unitOfWork.CompleteAsync();
             
             //Adding new recruiter profile
-            var newRecruiterProfile = new RecruiterProfile(newRecruiter.Firstname, newRecruiter.Lastname, "", "", newRecruiter.RecruiterId);
+            var newRecruiterProfile = new RecruiterProfile(newRecruiter.Firstname, newRecruiter.Lastname, "", "", "", newRecruiter.RecruiterId);
             await _recruiterProfileRepository.AddAsync(newRecruiterProfile);
             await _unitOfWork.CompleteAsync();
 

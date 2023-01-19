@@ -58,6 +58,17 @@ public class ApplicantProfileController : ControllerBase
         return Ok(new { message = "Successfully added.", resource = mappedResult });
     }
 
+    [HttpPut("{applicantId}")]
+    public async Task<IActionResult> PutApplicantProfile(long applicantId, [FromBody, SwaggerRequestBody()] UpdateApplicantProfileResource updateApplicantProfileResource)
+    {
+        var mappedApplicantTechSkill = _mapper.Map<UpdateApplicantProfileResource, ApplicantProfile>(updateApplicantProfileResource);
+        var result = await _applicantProfileService.UpdateAsync(applicantId, mappedApplicantTechSkill);
+        if (!result.Success)
+            return BadRequest(result.Message);
+        var mappedResult = _mapper.Map<ApplicantProfile, ApplicantProfileResource>(result.Resource);
+        return Ok(mappedResult);
+    }
+
     [HttpPut("applicant-id/{applicantId}/tech-skill-id/{techSkillId}")]
     public async Task<IActionResult> PutApplicantTechSkill(long applicantId, short techSkillId, UpdateApplicantTechSkillWithoutApplicantIdResource updateApplicantTechSkillResource)
     {

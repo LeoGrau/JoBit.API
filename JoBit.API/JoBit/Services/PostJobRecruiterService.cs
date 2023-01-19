@@ -28,7 +28,7 @@ public class PostJobRecruiterService : IPostJobRecruiterService
 
     public async Task<PostJobRecruiterResponse> FindByPostJobIdAndRecruiterId(PostJobRecruiterPk postJobRecruiterPk)
     {
-        var existingPostJobRecruiter = await _postJobRecruiterRepository.FindByPostJobIdAndRecruiterId(postJobRecruiterPk);
+        var existingPostJobRecruiter = await _postJobRecruiterRepository.FindByPostJobIdAndRecruiterIdAsync(postJobRecruiterPk);
         if (existingPostJobRecruiter == null)
             return new PostJobRecruiterResponse("Post Job Recruiter does not exist");
         return new PostJobRecruiterResponse(existingPostJobRecruiter);
@@ -55,7 +55,7 @@ public class PostJobRecruiterService : IPostJobRecruiterService
 
     public async Task<PostJobRecruiterResponse> RemoveAsync(PostJobRecruiterPk postJobRecruiterPk)
     {
-        var existingPostJobRecruiter = await _postJobRecruiterRepository.FindByPostJobIdAndRecruiterId(postJobRecruiterPk);
+        var existingPostJobRecruiter = await _postJobRecruiterRepository.FindByPostJobIdAndRecruiterIdAsync(postJobRecruiterPk);
         if (existingPostJobRecruiter == null)
             return new PostJobRecruiterResponse("Post Job Recruiter does not exist");
         try

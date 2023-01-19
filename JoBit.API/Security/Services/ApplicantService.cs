@@ -48,7 +48,7 @@ public class ApplicantService : IApplicantService
             await _unitOfWork.CompleteAsync();
             
             //Adding new applicant profile
-            var newApplicantProfile = new ApplicantProfile(newApplicant.Firstname, newApplicant.Lastname, "", "", newApplicant.ApplicantId);
+            var newApplicantProfile = new ApplicantProfile(newApplicant.Firstname, newApplicant.Lastname, "", "", "", newApplicant.ApplicantId);
             await _applicantProfileRepository.AddAsync(newApplicantProfile);
             await _unitOfWork.CompleteAsync();
         }

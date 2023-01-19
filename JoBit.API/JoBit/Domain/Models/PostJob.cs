@@ -17,6 +17,8 @@ public class PostJob : Post
     //Company Profile
     public long CompanyId { get; set; }
     public Company? Company { get; set; }
+    public long RecruiterPublisherId { get; set; } //Main Recruiter Publisher 
+    public Recruiter? RecruiterPublisher { get; set; }
 
     //Relations (We send)
     public IList<PostJobRecruiter>? PostJobRecruiters { get; set; }

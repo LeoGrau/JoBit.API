@@ -1,4 +1,5 @@
 using JoBit.API.JoBit.Domain.Models;
+using JoBit.API.JoBit.Domain.Models.Intermediate;
 using JoBit.API.JoBit.Domain.Repositories;
 using JoBit.API.JoBit.Domain.Services;
 using JoBit.API.JoBit.Domain.Services.Communication;
@@ -10,13 +11,15 @@ namespace JoBit.API.JoBit.Services;
 public class PostJobService : IPostJobService
 {
     private readonly IPostJobRepository _postJobRepository;
+    private readonly IPostJobRecruiterRepository _postJobRecruiterRepository;
     private readonly IRecruiterRepository _recruiterRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public PostJobService(IPostJobRepository postJobRepository, IUnitOfWork unitOfWork, IRecruiterRepository recruiterRepository)
+    public PostJobService(IPostJobRepository postJobRepository, IUnitOfWork unitOfWork, IRecruiterRepository recruiterRepository, IPostJobRecruiterRepository postJobRecruiterRepository)
     {
         _postJobRepository = postJobRepository;
         _recruiterRepository = recruiterRepository;
+        _postJobRecruiterRepository = postJobRecruiterRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -25,12 +28,13 @@ public class PostJobService : IPostJobService
         var postJobs = await _postJobRepository.ListAllAsync();
         postJobs.ToList().ForEach(postJob =>
         {
-            postJob.PostJobRecruiters.ToList().ForEach(postJobRecruiter =>
+            postJob.PostJobRecruiters = _postJobRecruiterRepository.ListAllByPostJobIdAsync(postJob.PostId).Result.ToList();
+            postJob.PostJobRecruiters.ToList().ForEach(recruiter =>
             {
-                postJobRecruiter.Recruiter = _recruiterRepository.FindByRecruiterIdAsync(postJobRecruiter.RecruiterId).Result;
+                recruiter.Recruiter = _recruiterRepository.FindByRecruiterIdAsync(recruiter.RecruiterId).Result;
             });
         });
-        return await _postJobRepository.ListAllAsync();
+        return postJobs;
     }
 
     public async Task<IEnumerable<PostJob>> ListAllByContainingJobName(string jobName)
@@ -55,6 +59,12 @@ public class PostJobService : IPostJobService
         {
             await _postJobRepository.AddAsync(newPostJob);
             await _unitOfWork.CompleteAsync();
+            
+            //Adding postJobRecruiter
+            var newPostJobRecruiter = new PostJobRecruiter(newPostJob.RecruiterPublisherId, newPostJob.PostId, true);
+            await _postJobRecruiterRepository.AddAsync(newPostJobRecruiter);
+            await _unitOfWork.CompleteAsync();
+            
             return new PostJobResponse(newPostJob);
         }
         catch (Exception e)

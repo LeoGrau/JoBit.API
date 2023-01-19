@@ -1,3 +1,4 @@
+using JoBit.API.JoBit.Domain.Models;
 using JoBit.API.JoBit.Domain.Repositories;
 using JoBit.API.JoBit.Domain.Services;
 using JoBit.API.JoBit.Persistence.Repositories;
@@ -98,6 +99,12 @@ builder.Services.AddScoped<IPostJobRepository, PostJobRepository>();
 //PostJobRecruiters
 builder.Services.AddScoped<IPostJobRecruiterService, PostJobRecruiterService>();
 builder.Services.AddScoped<IPostJobRecruiterRepository, PostJobRecruiterRepository>();
+//Career
+builder.Services.AddScoped<ICareerService, CareerService>();
+builder.Services.AddScoped<ICareerRepository, CareerRepository>();
+//Institution
+builder.Services.AddScoped<IInstitutionService, InstitutionService>();
+builder.Services.AddScoped<IEducationalInstitutionRepository, EducationalInstitutionRepository>();
 
 
 //Add Automapper Configuration

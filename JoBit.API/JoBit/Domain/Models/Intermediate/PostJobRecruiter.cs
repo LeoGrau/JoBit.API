@@ -12,4 +12,11 @@ public class PostJobRecruiter
     public PostJob? PostJob { get; set; }
     public bool MainPublisher { get; set; }
 
+
+    public PostJobRecruiter(long recruiterId, long postId, bool mainPublisher)
+    {
+        RecruiterId = recruiterId;
+        PostId = postId;
+        MainPublisher = mainPublisher;
+    }
 }

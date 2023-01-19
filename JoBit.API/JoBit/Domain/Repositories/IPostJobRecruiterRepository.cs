@@ -7,7 +7,8 @@ namespace JoBit.API.JoBit.Domain.Repositories;
 public interface IPostJobRecruiterRepository
 {
     Task<IEnumerable<PostJobRecruiter>> ListAllAsync();
-    Task<PostJobRecruiter> FindByPostJobIdAndRecruiterId(PostJobRecruiterPk postJobRecruiterPk);
+    Task<IEnumerable<PostJobRecruiter>> ListAllByPostJobIdAsync(long postId);
+    Task<PostJobRecruiter> FindByPostJobIdAndRecruiterIdAsync(PostJobRecruiterPk postJobRecruiterPk);
     Task AddAsync(PostJobRecruiter newPostJobRecruiter);
     void Update(PostJobRecruiter updatedPostJobRecruiter);
     void Remove(PostJobRecruiter toDeletePostJobRecruiter);

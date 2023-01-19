@@ -19,7 +19,12 @@ public class PostJobRecruiterRepository : BaseRepository, IPostJobRecruiterRepos
         return await AppDbContext.PostJobRecruiters.ToListAsync();
     }
 
-    public async Task<PostJobRecruiter> FindByPostJobIdAndRecruiterId(PostJobRecruiterPk postJobRecruiterPk)
+    public async Task<IEnumerable<PostJobRecruiter>> ListAllByPostJobIdAsync(long postId)
+    {
+        return await AppDbContext.PostJobRecruiters.Where(postJobRecruiter => postJobRecruiter.PostId == postId).ToListAsync();
+    }
+
+    public async Task<PostJobRecruiter> FindByPostJobIdAndRecruiterIdAsync(PostJobRecruiterPk postJobRecruiterPk)
     {
         return await AppDbContext.PostJobRecruiters.FindAsync(postJobRecruiterPk.PostId, postJobRecruiterPk.RecruiterId);
     }

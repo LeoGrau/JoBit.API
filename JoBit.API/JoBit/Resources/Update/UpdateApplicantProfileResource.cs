@@ -1,12 +1,10 @@
-namespace JoBit.API.JoBit.Resources.Show;
+namespace JoBit.API.JoBit.Resources.Update;
 
-public class ApplicantProfileResource
+public class UpdateApplicantProfileResource
 {
-    public long ApplicantId { get; set; }
     public String? Firstname { get; set; }
     public String? Lastname { get; set; }
     public String? PhotoUrl { get; set; }
     public String? Description { get; set; }
     public String? Profession { get; set; }
-    public IList<ApplicantTechSkillResource> ApplicantTechSkills { get; set; }
 }

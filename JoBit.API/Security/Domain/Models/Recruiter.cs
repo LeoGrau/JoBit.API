@@ -22,6 +22,7 @@ public class Recruiter : UserBase
     //We Send
     public RecruiterProfile? RecruiterProfile { get; set; }
     public IList<PostJobRecruiter>? PostJobRecruiters { get; set; }
+    public IList<PostJob>? PostJobs { get; set; }
 
     public Recruiter()
     {

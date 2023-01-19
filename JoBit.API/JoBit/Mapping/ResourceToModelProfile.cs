@@ -23,6 +23,9 @@ public class ResourceToModelProfile : Profile
         //PostJobRecruiter
         CreateMap<SavePostJobRecruiterResource, PostJobRecruiter>();
         
-        
+        //ApplicantProfile
+        CreateMap<UpdateApplicantProfileResource, ApplicantProfile>();
+
+
     }
 }
